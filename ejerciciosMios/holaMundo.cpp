@@ -1,24 +1,24 @@
 #include <iostream>
+#include <vector>
 #include <list>
 
 using namespace std;
 
-
+void recorrerArray(vector<int> const& array){
+    for(auto it = array.begin(); it != array.end(); it++){
+        cout << *it << " ";
+    }
+    cout << "\n";
+}
 
 int main(){
-    list<int> numeros = {4, 5, 6, 7};
-    numeros.push_back(9);
-    numeros.push_front(1);
 
-    while(!numeros.empty()){
-        cout << numeros.front() << "\n";
-        cout << numeros.back() << "\n";
-        numeros.pop_front();
-        numeros.pop_back();
-    }
+vector<int> nums = {3, -1, 5, 8, -3};
 
-    for(int i : numeros){
-        cout << i << "\n";
-    }
+for(int i=0;i<nums.size();i++){
+    cout << nums[i] << " ";
+}
+
+
 
 }
