@@ -144,6 +144,24 @@ void generateMatrixAna(){
     generarArrayAleatorio(N+1, 1, 100);
 }
 
+void generateLaLiga(int T){
+    while(T--){
+        int N = generarNumero(1,20000);
+        cout << N << "\n";
+        while(N--){
+            cout << generarNumero(10000, 19000) << " ";
+        }
+        cout << "\n";
+    }
+}
+
+void generateHongos(int T){
+    while(T--){
+        int N=generarNumero(1,1499),M=generarNumero(N+1,1500),T=generarNumero(0,3000);
+        cout << N << " " << M << " " << T << "\n";
+    }
+}
+
 int main(){
-    generateBuscaminas(1000);
+    generateHongos(100);
 }
