@@ -47,6 +47,7 @@
         "list": "cpp",
         "map": "cpp",
         "set": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "queue": "cpp"
     }
 }

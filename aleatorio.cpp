@@ -2,6 +2,7 @@
 #include <random>
 #include <deque>
 #include <math.h>
+#include <map>
 
 using namespace std;
 
@@ -162,6 +163,95 @@ void generateHongos(int T){
     }
 }
 
+
+map<int, char> dnies2 = {{0, 'T'}, {1, 'R'},{2, 'W'},{3, 'A'},{4, 'G'},{5, 'M'},{6, 'Y'},{7, 'F'},{8, 'P'},{9, 'D'},{10, 'X'},{11, 'B'},{12, 'N'},{13, 'J'},{14, 'Z'},{15, 'S'},{16, 'Q'},{17, 'V'},{18, 'H'},{19, 'L'},{20, 'C'},{21, 'K'},{22,'E'}};
+
+void generateDNI(int T){
+    cout << T << "\n";
+    while(T--){
+        int inter = generarNumero(1, 4);
+        string dni = "";
+        for(int i=0;i<8;i++){
+            int number = generarNumero(0, 9);
+            if(8 - dni.size() == inter) dni += '?';
+            else if(inter > 0) {
+                if(generarNumero(0, 1) > 0){
+                    dni += (number + '0');
+                }else{
+                    dni += '?'; inter--;
+                }
+            }else{
+                dni += (number+'0');
+            }
+        }
+
+        char letra = dnies2[generarNumero(0, 22)];
+        dni += letra;
+        cout << dni << "\n";
+
+    }
+}
+
+void generateCalculadora(int T){
+    while(T--){
+        cout << generarNumero(0, 9999) << " " << generarNumero(0, 9999) << "\n";
+    }
+}
+
+void generateAleatorioSerpientes(int T){
+    while(T--){
+        int N = generarNumero(1,100);
+        int K = generarNumero(1,N);
+        int S = generarNumero(1, 100);
+        int E = generarNumero(1,100);
+
+        cout << N << " " << K << " " << S << " " << E << "\n";
+
+        for(int i=0;i<S+E;i++){
+            cout << generarNumero(1,N*N) << " " << generarNumero(1, N*N) << "\n";
+        }
+    
+    }
+
+    cout << "0 0 0 0\n";
+
+
+}
+
+
+void generateRondaDeNoche(int T){
+    cout << T << "\n";
+    while(T--){
+        int W=100,H=100;
+        cout << W << " " << H << "\n";
+        pair<int, int> origen = {generarNumero(1,W),generarNumero(1,H)};
+        pair<int, int> destino = {generarNumero(1,W),generarNumero(1,H)};
+        
+        while(origen.first == destino.first && origen.second == destino.second) destino = {generarNumero(1,W),generarNumero(1,H)};
+        
+        for(int i=1;i<=H;i++){
+            for(int j=1;j<=W;j++){
+                if(origen.first == i && origen.second == j){
+                    cout << "E";
+                }else if(destino.first == i && destino.second == j){
+                    cout << "P";
+                }else {
+                    int aleatorio = generarNumero(1,30);
+                    if(aleatorio >= 1 && aleatorio <= 24) cout << ".";
+                    else if(aleatorio > 24 && aleatorio <= 29) cout << "#";
+                    else {
+                        vector<int> nums = {1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,3,3,4,4,5,6,7,8,9};
+                        int aleatorio = generarNumero(1,nums.size());
+                        cout << nums[aleatorio-1];
+                    }
+                }
+            }
+            cout << "\n";
+        }
+
+    }
+}
+
 int main(){
-    generateHongos(100);
+    generateRondaDeNoche(50);
 }
