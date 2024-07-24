@@ -4,38 +4,28 @@
 
 using namespace std;
 
-int destino;
-vector<vector<int>> g;
-vector<int> dist;
+vector<vector<pair<int, int>>> g;
+
+int dijkstra(int node){
+    priority_queue<pair<int, int>, 
+        vector<pair<int, int>>, 
+        greater<pair<int, int>>> pq;
+    pq.push({0, node});
+    while(!pq.empty()){
+        auto [c, v] = pq.top();
+        
+    }
+}
 
 int main(){
-    int N, A; cin >> N >> A;
-    g.assign(N, vector<int>(0, {}));
-    dist.assign(N, -1);
-    for(int i=0;i<N;i++){
-        int a, b; cin >> a >> b;
-        g[--a].push_back(--b);
-        g[b].push_back(a);
+    int V, E;
+    cin >> V >> E;
+    g.assign(V, vector<pair<int, int>>(0, {}));
+    for(int i=0;i<E;i++){
+        int o, d, c; cin >> o >> d >> c;
+        g[--o].push_back({--d, c});
+        g[d].push_back({o, c});
     }
-    int or; cin >> or >> destino;
-    cout << bfs(or);
+    
+    dijkstra(0);
 }
-
-
-int bfs(int node){
-    queue<int> nodos;
-    nodos.push(node);
-    dist[node] = 0;
-
-    while(!nodos.empty()){
-        for(int i : g[node]){
-            if(dist[i] == -1){
-                nodos.push(i);
-                dist[i] = dist[node]+1;
-            }
-        }
-    }
-
-    return dist[destino];
-}
-
