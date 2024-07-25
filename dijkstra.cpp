@@ -27,29 +27,23 @@ void dijkstra(int node){
     }
 }
 
-void caminoMinimo(int destino){
-    if(antecesores[destino] == -1){
-        cout << destino+1;
-    }else{
-        caminoMinimo(antecesores[destino]);
-        cout << " -> " << destino+1;
-    }
-}
-
 int main(){
-    int V, E;
-    cin >> V >> E;
+    int V, origin, destino;
+    cin >> V >> origin >> destino;
+
     g.assign(V, vector<pair<int, int>>(0, {-1, -1}));
     antecesores.assign(V, -1);
     dist.assign(V, -1);
-    for(int i=0;i<E;i++){
-        int o, d, c; cin >> o >> d >> c;
-        g[--o].push_back({--d, c});
-        g[d].push_back({o, c});
+    for(int i=0;i<V;i++){
+        for(int j=0;j<V;j++){
+            int c; cin >> c;
+            if(c != 0 && i != j){
+                g[i].push_back({j, c});
+                g[j].push_back({i, c});
+            }
+        }
     }
-    
-    int origin, destino;
-    cin >> origin >> destino;
+
     dijkstra(origin);
     cout << dist[destino] << "\n";
 }

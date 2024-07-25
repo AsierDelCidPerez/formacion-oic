@@ -3,16 +3,116 @@
 #include <deque>
 #include <math.h>
 #include <map>
+#include <string>
+#include <set>
 
 using namespace std;
 
 std::random_device rd;
 std::mt19937 eng(rd());
 
+struct ufds {
+    int numSets;
+    vector<int> p;
+
+    ufds(int N) : numSets(N), p(N, -1) {}
+
+    int find(int i){
+        return (p[i] < 0) ? i : p[i] = find(p[i]);
+    }
+
+    void join(int i, int j){
+        int x = find(i), y = find(j); 
+        if(p[x] > p[y]) {
+            swap(x, y);
+        } // x siempre contiene al arbol mayor
+        p[x] += p[y];
+        p[y] = x;
+        --numSets;
+    }
+
+    bool related(int i, int j){
+        return find(i) == find(j);
+    }
+
+    int size(int i){
+        return -p[find(i)];
+    }
+
+};
+
+
 int generarNumero(int min, int max){
     uniform_int_distribution distr(min, max);
     return distr(eng);
 }
+
+bool contengase(vector<int> arr, int a){
+    for(int i : arr){
+        if(a == i) return true;
+    }
+    return false;
+}
+
+pair<int, int> parNoRepetido(int min, int max){
+    int a = generarNumero(min, max);
+    int b = generarNumero(min, max);
+    while(a == b) int b = generarNumero(min, max);
+    return {a, b};
+}
+
+void aleatorioGrafo(bool ponderado){
+    vector<vector<int>> g;
+    int n = generarNumero(3, 20000);
+    g.assign(n, vector<int>(0, {}));
+    vector<int> parents;
+    set<int> peres;
+    int salida = generarNumero(0, n-1);
+    int pasillos = 0;
+    parents.push_back(salida);
+    peres.insert(salida);
+    ufds u(n);
+    while(u.numSets != 1){
+        int r = parents[generarNumero(0, parents.size()-1)];
+        int a = generarNumero(0, n-1);
+        while(u.related(r, a) || peres.count(a)) a = generarNumero(0, n-1);
+        // while(r == a) a = random(0, n-1);
+        g[r].push_back(a);
+        peres.insert(a);
+        parents.push_back(a);
+        u.join(r, a);
+        
+        ++pasillos;
+    }
+    
+    int fin = generarNumero(0, n-1);
+    int alpha = 1.1*n-pasillos;
+
+    while(alpha--){
+        int r = generarNumero(0, n-1);
+        int a = fin;
+        while(contengase(g[a], r) || contengase(g[r], a) || r == a){
+            r = generarNumero(0, n-1);
+        }
+        g[r].push_back(a);
+        ++pasillos;
+    }
+
+    const int faktor = 40;
+
+    cout << n << " " << pasillos << " " <<  generarNumero(1, n) << " " << generarNumero(1, n) << " " << generarNumero(1, n)  << "\n";
+    // generarArrayAleatorio(n, 100, 100000);
+   
+    for(int i=0;i<g.size();i++)
+        for(auto j : g[i])
+            cout << i+1 << " " << j+1 << (ponderado ? (" " + to_string(generarNumero(1,faktor))) : "") << "\n";
+    
+
+
+
+}
+
+
 
 void generarArrayAleatorio(int longitud, int min, int max){
 
@@ -252,6 +352,47 @@ void generateRondaDeNoche(int T){
     }
 }
 
+void generarRatones(int T){
+    while(T--){
+        aleatorioGrafo(true);
+    }
+}
+
+void generateSaturno(int T){
+    cout << T << "\n";
+    while(T--){
+        int N = generarNumero(1,3000);
+        int K = generarNumero(1,10000);
+        cout << N << " " << K << "\n";
+        while(K--){
+            int a = generarNumero(1,N-1);
+            int b = generarNumero(1,359);
+            cout << a << " " << b << "\n";
+        }
+        for(int i=0;i<N;i++){
+            cout << generarNumero(1,1000) << " ";
+        }
+        cout << "\n";
+
+
+        cout << generarNumero(1,N) << " " << generarNumero(1,359) << " " << generarNumero(1,N)  << " " << generarNumero(1,359) << "\n";
+
+    }
+}
+
+void generaSuper(int T){
+    while(T--){
+        int N = generarNumero(1, 500);
+        int C = generarNumero(1, 500);
+        cout << N << " " << C << "\n";
+        for(int i=0;i<C;i++){
+            cout << generarNumero(1,100) << " ";
+        }
+        cout << "\n";
+    }
+    cout << "0 0\n";
+}
+
 int main(){
-    generateRondaDeNoche(50);
+    generaSuper(500);
 }
