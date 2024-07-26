@@ -61,9 +61,21 @@ pair<int, int> parNoRepetido(int min, int max){
     return {a, b};
 }
 
+
+
+void generarArrayAleatorio(int longitud, int min, int max){
+
+    while(longitud--){
+        cout << generarNumero(min, max) << " ";
+    }
+
+    cout << "\n";
+}
+
+
 void aleatorioGrafo(bool ponderado){
     vector<vector<int>> g;
-    int n = generarNumero(3, 20000);
+    int n = generarNumero(3, 1000);
     g.assign(n, vector<int>(0, {}));
     vector<int> parents;
     set<int> peres;
@@ -98,30 +110,18 @@ void aleatorioGrafo(bool ponderado){
         ++pasillos;
     }
 
-    const int faktor = 40;
+    const int faktor = 100;
 
-    cout << n << " " << pasillos << " " <<  generarNumero(1, n) << " " << generarNumero(1, n) << " " << generarNumero(1, n)  << "\n";
-    // generarArrayAleatorio(n, 100, 100000);
+    cout << n << " " << pasillos << "\n";
    
     for(int i=0;i<g.size();i++)
         for(auto j : g[i])
             cout << i+1 << " " << j+1 << (ponderado ? (" " + to_string(generarNumero(1,faktor))) : "") << "\n";
     
-
-
+    cout << generarNumero(1, n) << " " << generarNumero(1, n) << " " << generarNumero(1,10) << "\n";
 
 }
 
-
-
-void generarArrayAleatorio(int longitud, int min, int max){
-
-    while(longitud--){
-        cout << generarNumero(min, max) << " ";
-    }
-
-    cout << "\n";
-}
 
 void generarPedroFranqueza(int T){
     while(T--){
@@ -393,6 +393,46 @@ void generaSuper(int T){
     cout << "0 0\n";
 }
 
+void generarTrieHard(int T){
+    cout << T << "\n";
+    while(T--){
+        int A = generarNumero(1,1000);
+        int B = generarNumero(1,A);
+        int C = generarNumero(1,A);
+        int conseguir = generarNumero(1,A);
+        cout << A << " " << B << " " << C << " " << conseguir << "\n";
+    }
+}
+
+void generateGas(int T){
+    while(T--){
+        int N=generarNumero(1,1000),M=generarNumero(1,1000);
+        cout << N << "\n";
+        for(int i=0;i<N;i++){
+            cout << generarNumero(1,100) << " ";
+        }
+        cout << "\n";
+        set<int> numeros;
+        for(int i=0;i<M;i++){
+            auto par = parNoRepetido(1, N);
+            numeros.insert(par.first); numeros.erase(par.second);
+            cout << par.first << " " << par.second << " " << generarNumero(1,100) << "\n";
+        }
+        int Q = generarNumero(1,100); cout << Q << "\n";
+        while(Q--){
+            cout << generarNumero(1,100) << " ";
+            auto conf = parNoRepetido(1,N);
+            auto it = numeros.begin();
+            auto it2 = numeros.begin();
+            for(int i=0;i<conf.first;i++) it++;
+            for(int i=0;i<conf.second;i++) it2++;
+            cout << *it << " " << *it2 << "\n";
+        }
+    }
+}
+
 int main(){
-    generaSuper(500);
+    int T = 200;
+    cout << T << "\n";
+    while(T--) aleatorioGrafo(true);
 }

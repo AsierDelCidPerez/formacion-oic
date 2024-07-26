@@ -4,52 +4,60 @@
 
 using namespace std;
 
+using state = pair<int, int>; // node, mult
+using PQGreater = priority_queue< pair<int, state>, vector<pair<int, state>>, greater<pair<int, state>> >;
+
+int destino, mult;
+vector<vector<int>> dist;
+vector<vector<state>> anteriores;
 vector<vector<pair<int, int>>> g;
-vector<int> dist;
-vector<int> antecesores;
+
+void getCamino(state estado){
+    auto parent = anteriores[estado.first][estado.second];
+    if(parent.first == -1 && parent.second == -1){
+        cout << "<" << estado.first << ", " << estado.second << ">";
+    }else{
+        getCamino(parent);
+        cout << " -> <" << estado.first << ", " << estado.second << ">";
+    }
+}
 
 void dijkstra(int node){
-    priority_queue<pair<int, int>, 
-        vector<pair<int, int>>, 
-        greater<pair<int, int>>
-    > pq;
-    pq.push({0, node});
-    dist[node] = 0;
+    PQGreater pq;
+    dist[node][0] = 0;
+    pq.push({0, {node, 0}});
     while(!pq.empty()){
-        auto [c, v] = pq.top(); pq.pop();
-        if(dist[v] != -1 && dist[v] < c) continue;
-        for(auto [i, c] : g[v]){
-            if(dist[i] == -1 || dist[v]+c < dist[i]){
-                dist[i] = dist[v]+c;
-                pq.push({dist[i],i});
+        auto [c, estado] = pq.top(); pq.pop();
+        if(c > dist[estado.first][estado.second]) continue;
+        int nuevaMult = (estado.second + 1) % mult;
+        for(auto [n, C] : g[estado.first]){
+            if(dist[n][nuevaMult] == -1 || dist[n][nuevaMult] > C + c){
+                dist[n][nuevaMult] = C + c;
+                anteriores[n][nuevaMult] = {estado.first, estado.second};
+                pq.push({dist[n][nuevaMult], {n, nuevaMult}});
             }
         }
     }
-}
-
-void caminoMinimo(int destino){
-    if(antecesores[destino] == -1){
-        cout << destino+1;
-    }else{
-        caminoMinimo(antecesores[destino]);
-        cout << " -> " << destino+1;
-    }
+    cout << dist[destino][0] << "\n";
+    // getCamino({destino, 0});
 }
 
 int main(){
-    int V, E;
-    cin >> V >> E;
-    g.assign(V, vector<pair<int, int>>(0, {-1, -1}));
-    antecesores.assign(V, -1);
-    dist.assign(V, -1);
-    for(int i=0;i<E;i++){
-        int o, d, c; cin >> o >> d >> c;
-        g[--o].push_back({--d, c});
-        g[d].push_back({o, c});
+    int T; cin >> T;
+    while(T--){
+        int V, E;
+        cin >> V >> E;
+        g.assign(V, vector<pair<int, int>>(0, {-1, -1}));
+        anteriores.assign(V, vector<pair<int, int>>(V, {-1, -1}));
+        for(int i=0;i<E;i++){
+            int a, b, c; cin >> a >> b >> c;
+            g[--a].push_back({--b, c});
+            g[b].push_back({a, c});
+        }
+        int origin;
+        cin >> origin >> destino >> mult;
+        --origin;--destino;
+        dist.assign(V, vector<int>(mult, -1));
+        dijkstra(origin);
     }
-    
-    int origin, destino;
-    cin >> origin >> destino;
-    dijkstra(origin);
-    cout << dist[destino] << "\n";
 }
