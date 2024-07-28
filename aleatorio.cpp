@@ -7,6 +7,7 @@
 #include <set>
 
 using namespace std;
+using ll = long long int;
 
 std::random_device rd;
 std::mt19937 eng(rd());
@@ -42,7 +43,8 @@ struct ufds {
 };
 
 
-int generarNumero(int min, int max){
+
+ll generarNumero(ll min, ll max){
     uniform_int_distribution distr(min, max);
     return distr(eng);
 }
@@ -75,7 +77,7 @@ void generarArrayAleatorio(int longitud, int min, int max){
 
 void aleatorioGrafo(bool ponderado){
     vector<vector<int>> g;
-    int n = generarNumero(3, 1000);
+    int n = generarNumero(3, 100);
     g.assign(n, vector<int>(0, {}));
     vector<int> parents;
     set<int> peres;
@@ -118,7 +120,7 @@ void aleatorioGrafo(bool ponderado){
         for(auto j : g[i])
             cout << i+1 << " " << j+1 << (ponderado ? (" " + to_string(generarNumero(1,faktor))) : "") << "\n";
     
-    cout << generarNumero(1, n) << " " << generarNumero(1, n) << " " << generarNumero(1,10) << "\n";
+    // cout << generarNumero(1, n) << " " << generarNumero(1, n) << " " << generarNumero(1,10) << "\n";
 
 }
 
@@ -431,8 +433,95 @@ void generateGas(int T){
     }
 }
 
+void generateNoticiasVuelan(int T){
+    while(T--){
+        int M=generarNumero(1,50);
+        int N = generarNumero(1,M);
+        cout << N << " " << M << "\n";
+        for(int i=0;i<M;i++){
+            int l = generarNumero(1,N);
+            set<int> usados;
+            for(int j=0;j<l;j++){
+                int num = generarNumero(1,N);
+                while(usados.count(num)) num = generarNumero(1,N);
+                usados.insert(num);
+                cout << num << " ";
+            }
+            cout << "\n";
+        }
+    }
+}
+
+void generarPetroleros(int T){
+    while(T--){
+        int F=generarNumero(1,1000), C=generarNumero(1,1000);
+        cout << F << " " << C << "\n";
+        for(int i=0;i<F;i++){
+            for(int j=0;j<C;j++){
+                int al = generarNumero(0, 2);
+                if(!al) cout << "#";
+                else cout << " ";
+            }
+            cout << "\n";
+        }
+        int N = generarNumero(1,100000);
+        cout << N << "\n";
+        while(N--){
+            cout << generarNumero(1,F) << " " << generarNumero(1,F) << "\n";
+        }
+    }
+}
+
+void generarAlcatraz(int T){
+    while(T--){
+        int N=generarNumero(100,1000),M=generarNumero(100,1000);
+        int V = generarNumero(1,1000);
+        cout << N << " " << M << " " << V << " ";
+        while(V--){
+            cout << generarNumero(1,N) << " " << generarNumero(1,M) << " ";
+        }
+        cout << "\n";
+    }
+    cout << "0\n";
+}
+
+void generarateArdillaViajera(int T){
+    while(T--){
+        int N=generarNumero(1,1000),M=generarNumero(1,1000),K=generarNumero(1,10),n=generarNumero(1,100000);
+        cout << N << " " << M << " " << K << " " << n << "\n";
+        while(n--){
+            cout << generarNumero(1,N) << " " << generarNumero(1,M) << "\n";
+        }
+    }
+}
+
+void generarEternidadDespues(int T){
+    while(T--){
+        cout << generarNumero(1,100) << " " << generarNumero(1,100000000) << "\n";
+    }
+    cout << "0 0\n";
+}
+
+
+void generarGradoSeparacion(int T){
+    while(T--){
+        int P = generarNumero(1,100);
+        int R = generarNumero(1,1000);
+        vector<string> personas(P, "");
+        for(int i=0;i<P;++i){
+            personas[i] = generateFromBank(banco, 10);
+        }
+        cout << P << " " << R << "\n";
+        while(R--){
+            int al1 = generarNumero(0,P-1);
+            int al2 = generarNumero(0,P-1);
+            cout << personas[al1] << " " << personas[al2] << "\n";
+        }
+    }
+}
+
 int main(){
-    int T = 200;
-    cout << T << "\n";
-    while(T--) aleatorioGrafo(true);
+    for(int i=0;i<50;i++){
+        aleatorioGrafo(true);
+    }
 }
