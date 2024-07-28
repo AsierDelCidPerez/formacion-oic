@@ -77,7 +77,7 @@ void generarArrayAleatorio(int longitud, int min, int max){
 
 void aleatorioGrafo(bool ponderado){
     vector<vector<int>> g;
-    int n = generarNumero(3, 100);
+    int n = generarNumero(3, 10);
     g.assign(n, vector<int>(0, {}));
     vector<int> parents;
     set<int> peres;
@@ -121,6 +121,12 @@ void aleatorioGrafo(bool ponderado){
             cout << i+1 << " " << j+1 << (ponderado ? (" " + to_string(generarNumero(1,faktor))) : "") << "\n";
     
     // cout << generarNumero(1, n) << " " << generarNumero(1, n) << " " << generarNumero(1,10) << "\n";
+
+    int Q; cin >> Q;
+    cout << Q << "\n";
+    while(Q--){
+        cout << generarNumero(1,n) << " " << generarNumero(1,n) << "\n";
+    }
 
 }
 
@@ -520,8 +526,21 @@ void generarGradoSeparacion(int T){
     }
 }
 
-int main(){
-    for(int i=0;i<50;i++){
-        aleatorioGrafo(true);
+void aleatorioConexium(int T){
+    while(T--){
+        int V=generarNumero(1,1000),E=generarNumero(1,1000);
+        cout << V << " " << E << "\n";
+        while(E--){
+            cout << generarNumero(1,V) << " " << generarNumero(1, V) << "\n";
+        }
+        int Q = generarNumero(1,10);
+        cout << Q << "\n";
+        while(Q--){
+            cout << generarNumero(1,V) << " " << generarNumero(1,V) << "\n";
+        }
     }
+}
+
+int main(){
+    aleatorioConexium(100);
 }
