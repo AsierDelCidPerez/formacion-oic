@@ -784,5 +784,5 @@ void productosGenerar(int T){
 }
 
 int main(){
-    generateTrenesHorarios(1000);
+    aleatorioGrafo(true);
 }
